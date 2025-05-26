@@ -17,11 +17,9 @@ jobs:
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
-        echo "$SSH_PRIVATE_KEY" | sed 's/\\n/\n/g' > keyfile
+        echo "$SSH_PRIVATE_KEY" > keyfile
         chmod 600 keyfile
         mkdir -p ~/.ssh
-        ssh-keyscan ec2-3-93-216-92.compute-1.amazonaws.com >> ~/.ssh/known_hosts
-
+        cp known_hosts ~/.ssh/known_hosts
         ssh -t -i keyfile ubuntu@ec2-3-93-216-92.compute-1.amazonaws.com "sudo bash ~/deploy.sh"
-
 
